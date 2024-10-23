@@ -5,21 +5,19 @@ import 'package:path_provider/path_provider.dart';
 import 'objectbox.g.dart';
 
 class ObjectBox {
-  late final Store _store;
+  late final Store store;
+  late final Box<TransactionCategory> _transactionCategory;
 
-  late final Box<TransactionCategory> _transactionCategoryBox;
+  ObjectBox._create(this.store) {
+    _transactionCategory = Box<TransactionCategory>(store);
 
-  ObjectBox._create(this._store) {
-    _transactionCategoryBox = Box<TransactionCategory>(_store);
-
-    if (_transactionCategoryBox.isEmpty()) {
+    if (_transactionCategory.isEmpty()) {
       _putCategories();
     }
   }
 
   static Future<ObjectBox> create() async {
     final docsDir = await getApplicationDocumentsDirectory();
-
     final store =
         await openStore(directory: p.join(docsDir.path, "obx-fitwallet"));
     return ObjectBox._create(store);
@@ -27,13 +25,24 @@ class ObjectBox {
 
   void _putCategories() {
     final categories = [
+      TransactionCategory('Прочее'),
       TransactionCategory('Продукты'),
       TransactionCategory('Транспорт'),
-      TransactionCategory('Коммунальные услуги'),
       TransactionCategory('Аренда'),
-      TransactionCategory('Развлечения'),
-      TransactionCategory('Здоровье')
+      TransactionCategory('ЖКХ'),
+      TransactionCategory('Развлечения')
     ];
-    _transactionCategoryBox.putManyAsync(categories);
+    _transactionCategory.putManyAsync(categories);
+  }
+
+  int countCategories() {
+    return _transactionCategory.count();
+  }
+
+  Stream<List<TransactionCategory>> getAllCategories() {
+    return _transactionCategory
+        .query()
+        .watch(triggerImmediately: true)
+        .map((query) => query.find());
   }
 }

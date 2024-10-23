@@ -51,7 +51,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(2, 3683953713087113158),
       name: 'Transaction',
-      lastPropertyId: const obx_int.IdUid(5, 2655973073840304653),
+      lastPropertyId: const obx_int.IdUid(7, 6716448186542205889),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -78,7 +78,21 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(5, 2655973073840304653),
             name: 'date',
             type: 10,
-            flags: 0)
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 5598074010662120202),
+            name: 'accountId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(1, 4099106371880489280),
+            relationTarget: 'Account'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 6716448186542205889),
+            name: 'categoryId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(2, 3653555960877561752),
+            relationTarget: 'TransactionCategory')
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
@@ -139,7 +153,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
       lastEntityId: const obx_int.IdUid(3, 716306246821313046),
-      lastIndexId: const obx_int.IdUid(0, 0),
+      lastIndexId: const obx_int.IdUid(2, 3653555960877561752),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
@@ -192,7 +206,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         }),
     Transaction: obx_int.EntityDefinition<Transaction>(
         model: _entities[1],
-        toOneRelations: (Transaction object) => [],
+        toOneRelations: (Transaction object) =>
+            [object.account, object.category],
         toManyRelations: (Transaction object) => {},
         getId: (Transaction object) => object.id,
         setId: (Transaction object, int id) {
@@ -201,12 +216,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectToFB: (Transaction object, fb.Builder fbb) {
           final noteOffset =
               object.note == null ? null : fbb.writeString(object.note!);
-          fbb.startTable(6);
+          fbb.startTable(8);
           fbb.addInt64(0, object.id);
           fbb.addFloat64(1, object.amount);
           fbb.addBool(2, object.isIncome);
           fbb.addOffset(3, noteOffset);
           fbb.addInt64(4, object.date.millisecondsSinceEpoch);
+          fbb.addInt64(5, object.account.targetId);
+          fbb.addInt64(6, object.category.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -229,7 +246,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
               isIncome: isIncomeParam,
               note: noteParam,
               date: dateParam);
-
+          object.account.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          object.account.attach(store);
+          object.category.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
+          object.category.attach(store);
           return object;
         }),
     TransactionCategory: obx_int.EntityDefinition<TransactionCategory>(
@@ -304,6 +326,15 @@ class Transaction_ {
   /// See [Transaction.date].
   static final date =
       obx.QueryDateProperty<Transaction>(_entities[1].properties[4]);
+
+  /// See [Transaction.account].
+  static final account =
+      obx.QueryRelationToOne<Transaction, Account>(_entities[1].properties[5]);
+
+  /// See [Transaction.category].
+  static final category =
+      obx.QueryRelationToOne<Transaction, TransactionCategory>(
+          _entities[1].properties[6]);
 }
 
 /// [TransactionCategory] entity fields to define ObjectBox queries.

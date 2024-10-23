@@ -33,8 +33,8 @@ class Transaction {
   String? note;
   DateTime date;
 
-  final account = ToOne<Account>;
-  final category = ToOne<TransactionCategory>;
+  final account = ToOne<Account>();
+  final category = ToOne<TransactionCategory>();
 
   Transaction(
       {this.id = 0,

@@ -1,4 +1,4 @@
-import 'package:fit_wallet/widgets/accounts_widget.dart';
+import 'package:fit_wallet/main.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,10 +16,29 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Главная'),
         automaticallyImplyLeading: false,
       ),
-      body: const SafeArea(
-          child: Column(
-        children: [AccountsWidget()],
-      )),
+      body: SafeArea(
+        child: Center(
+          child: Expanded(
+              child: StreamBuilder(
+            stream: objectbox.getAllCategories(),
+            builder: (context, snapshot) => ListView.builder(
+                itemCount: objectbox.countCategories(),
+                itemBuilder: (BuildContext context, int index) {
+                  final category = snapshot.data;
+                  return Column(
+                    children: [
+                      ListTile(
+                        title: Text(category![index].name),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      )
+                    ],
+                  );
+                }),
+          )),
+        ),
+      ),
     );
   }
 }
