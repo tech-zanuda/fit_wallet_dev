@@ -7,9 +7,13 @@ import 'objectbox.g.dart';
 class ObjectBox {
   late final Store store;
   late final Box<TransactionCategory> _transactionCategory;
+  late final Box<Transaction> _transaction;
+  late final Box<Account> _account;
 
   ObjectBox._create(this.store) {
     _transactionCategory = Box<TransactionCategory>(store);
+    _transaction = Box<Transaction>(store);
+    _account = Box<Account>(store);
 
     if (_transactionCategory.isEmpty()) {
       _putCategories();
@@ -41,6 +45,17 @@ class ObjectBox {
 
   Stream<List<TransactionCategory>> getAllCategories() {
     return _transactionCategory
+        .query()
+        .watch(triggerImmediately: true)
+        .map((query) => query.find());
+  }
+
+  void putAccount(Account account) {
+    _account.putAsync(account);
+  }
+
+  Stream<List<Account>> getAccounts() {
+    return _account
         .query()
         .watch(triggerImmediately: true)
         .map((query) => query.find());

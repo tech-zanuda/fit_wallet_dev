@@ -13,11 +13,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  bloc: ^8.1.4
-  flutter_bloc: ^8.1.6
   image_picker: ^1.1.2
   fl_chart: ^0.69.0
-  equatable: ^2.0.5
   go_router: ^14.3.0
   shared_preferences: ^2.3.2
   flex_color_scheme: ^7.3.1
@@ -30,6 +27,7 @@ dependencies:
   freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
   path_provider: ^2.1.4
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
