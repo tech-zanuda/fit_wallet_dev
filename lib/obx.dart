@@ -60,4 +60,8 @@ class ObjectBox {
         .watch(triggerImmediately: true)
         .map((query) => query.find());
   }
+
+  void removeAccounts() {
+    _account.removeAll();
+  }
 }

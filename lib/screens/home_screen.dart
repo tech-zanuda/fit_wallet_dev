@@ -1,5 +1,5 @@
-import 'package:fit_wallet/main.dart';
 import 'package:fit_wallet/screens/add_account.dart';
+import 'package:fit_wallet/widgets/accounts_listview.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             AccountsListView(),
           ],
@@ -69,72 +70,3 @@ class _HomeScreenState extends State<HomeScreen> {
 //   }
 // }
 
-class AccountsListView extends StatelessWidget {
-  const AccountsListView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: objectbox.getAccounts(),
-      builder: (context, snapshot) => SizedBox(
-        height: 62,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: snapshot.hasData ? snapshot.data!.length : 0,
-            itemBuilder: (BuildContext context, int index) {
-              if (snapshot.hasData) {
-                final account = snapshot.data;
-                return Container(
-                  width: 160,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1.0),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding:
-                      EdgeInsets.only(top: 5, bottom: 5, left: 12, right: 1),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(account![index].name,
-                                  style:
-                                      Theme.of(context).textTheme.bodyMedium),
-                              Text(
-                                account[index].amount.toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(fontWeight: FontWeight.w700),
-                              ),
-                            ],
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              height: 50,
-                              width: 5,
-                              decoration: BoxDecoration(
-                                  color: Color(int.parse(
-                                          account[index].color!.substring(1, 7),
-                                          radix: 16) +
-                                      0xFF000000),
-                                  borderRadius: BorderRadius.circular(2)),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                return SizedBox();
-              }
-            }),
-      ),
-    );
-  }
-}
