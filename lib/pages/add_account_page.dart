@@ -3,14 +3,14 @@ import 'package:fit_wallet/models/db_entities.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class NewAccountScreen extends StatefulWidget {
-  const NewAccountScreen({super.key});
+class NewAccountPage extends StatefulWidget {
+  const NewAccountPage({super.key});
 
   @override
-  State<NewAccountScreen> createState() => _NewAccountScreenState();
+  State<NewAccountPage> createState() => _NewAccountPageState();
 }
 
-class _NewAccountScreenState extends State<NewAccountScreen> {
+class _NewAccountPageState extends State<NewAccountPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _amountController = TextEditingController();
@@ -47,7 +47,7 @@ class _NewAccountScreenState extends State<NewAccountScreen> {
           Padding(
             padding: const EdgeInsets.only(
               right: 16.0,
-              left: 16,
+              left: 16.0,
             ),
             child: Form(
               key: _formKey,

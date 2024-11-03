@@ -1,5 +1,5 @@
 import 'package:fit_wallet/main.dart';
-import 'package:fit_wallet/screens/add_account.dart';
+import 'package:fit_wallet/pages/add_account_page.dart';
 import 'package:flutter/material.dart';
 
 class AccountsListView extends StatelessWidget {
@@ -13,7 +13,7 @@ class AccountsListView extends StatelessWidget {
         constraints: BoxConstraints(maxHeight: 60),
         child: ListView.builder(
             clipBehavior: Clip.none,
-            padding: EdgeInsets.only(left: 15, right: 5),
+            padding: EdgeInsets.only(left: 16, right: 5),
             scrollDirection: Axis.horizontal,
             itemCount: snapshot.hasData ? (snapshot.data!.length + 1) : 0,
             itemBuilder: (BuildContext context, int index) {
@@ -22,21 +22,21 @@ class AccountsListView extends StatelessWidget {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (BuildContext context) {
-                      return NewAccountScreen();
+                      return NewAccountPage();
                     }));
                   },
                   child: Container(
-                      margin: EdgeInsets.only(right: 10),
+                      margin: EdgeInsets.only(right: 11),
                       width: 160,
                       decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primaryContainer,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.black26,
+                                color: Colors.black.withOpacity(0.25),
                                 blurRadius: 6,
                                 spreadRadius: .5,
-                                offset: Offset(1, 2),
+                                offset: Offset(0, 2),
                                 blurStyle: BlurStyle.normal)
                           ]),
                       padding: EdgeInsets.only(
@@ -80,10 +80,10 @@ class AccountsListView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.black26,
+                            color: Colors.black.withOpacity(0.25),
                             blurRadius: 6,
                             spreadRadius: .5,
-                            offset: Offset(1, 2))
+                            offset: Offset(0, 2))
                       ]),
                   padding:
                       EdgeInsets.only(top: 5, bottom: 5, left: 12, right: 12),
