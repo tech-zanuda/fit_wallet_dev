@@ -13,7 +13,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AccountsListView(),
+        SizedBox(
+          height: 10,
+        ),
+        AccountsListView(
+          key: ValueKey(Theme.of(context).brightness),
+        ),
       ],
     );
   }

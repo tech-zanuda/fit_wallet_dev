@@ -1,6 +1,7 @@
 import 'package:fit_wallet/main.dart';
 import 'package:fit_wallet/pages/add_account_page.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AccountsListView extends StatelessWidget {
   const AccountsListView({super.key});
@@ -106,28 +107,22 @@ class AccountsListView extends StatelessWidget {
                                     style:
                                         Theme.of(context).textTheme.bodyMedium),
                               ),
-                              Row(
-                                children: [
-                                  ConstrainedBox(
-                                    constraints:
-                                        BoxConstraints(maxWidth: 120.5),
-                                    child: Text(
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      account[index].amount.toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w700),
-                                    ),
-                                  ),
-                                  Text(
-                                    ' ₽',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  )
-                                ],
+                              SizedBox(
+                                width: 136,
+                                child: Text(
+                                  NumberFormat.currency(
+                                          locale: "ru_RU",
+                                          name: 'RUB',
+                                          decimalDigits: 2,
+                                          symbol: '₽')
+                                      .format(account[index].amount),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(fontWeight: FontWeight.w700),
+                                ),
                               ),
                             ],
                           ),

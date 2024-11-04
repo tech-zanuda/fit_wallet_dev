@@ -1,9 +1,11 @@
 import 'package:fit_wallet/obx.dart';
 import 'package:fit_wallet/pages/start_page.dart';
-import 'package:fit_wallet/providers/current_page_provider.dart';
 import 'package:fit_wallet/utils/theme_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'providers/app_theme_mode_provider.dart';
+import 'providers/current_page_provider.dart';
 
 late ObjectBox objectbox;
 
@@ -12,7 +14,8 @@ Future<void> main() async {
 
   objectbox = await ObjectBox.create();
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => AppThemeModeProvider(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,18 +23,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fit Wallet',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => CurrentPageProvider())
-        ],
-        child: const StartPage(),
+    return Consumer<AppThemeModeProvider>(
+      builder: (context, value, child) => MaterialApp(
+        title: 'Fit Wallet',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => CurrentPageProvider()),
+          ],
+          child: const StartPage(),
+        ),
+        themeMode:
+            Provider.of<AppThemeModeProvider>(context, listen: true).mode,
       ),
-      themeMode: ThemeMode.light,
     );
   }
 }

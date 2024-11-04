@@ -36,20 +36,20 @@ class _NewAccountPageState extends State<NewAccountPage> {
       appBar: AppBar(
         title: Text('Новый счёт'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Lottie.asset(
-            'lib/assets/lottie/add_account.json',
-            height: 250,
-            repeat: false,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 16.0,
-              left: 16.0,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(
+          right: 16.0,
+          left: 16.0,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Lottie.asset(
+              'lib/assets/lottie/add_account.json',
+              height: 250,
+              repeat: false,
             ),
-            child: Form(
+            Form(
               key: _formKey,
               child: Column(
                 children: [
@@ -105,8 +105,8 @@ class _NewAccountPageState extends State<NewAccountPage> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

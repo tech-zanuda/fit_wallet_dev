@@ -12,6 +12,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CurrentPageProvider currentPage = context.read<CurrentPageProvider>();
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 70,
@@ -37,17 +38,22 @@ class CustomBottomNavigationBar extends StatelessWidget {
               splashColor: buttonSplash,
               radius: 28,
               onTap: () {
-                context.read<CurrentPageProvider>().setValue(0);
+                currentPage.setValue(0);
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.home_outlined,
-                    size: 30,
-                  ),
+                  currentPage.currentPageIndex == 0
+                      ? Icon(
+                          Icons.home,
+                          size: 30,
+                        )
+                      : Icon(
+                          Icons.home_outlined,
+                          size: 30,
+                        ),
                   Text(
                     'Главная',
                     style: Theme.of(context).textTheme.bodySmall,
@@ -61,16 +67,21 @@ class CustomBottomNavigationBar extends StatelessWidget {
               splashColor: buttonSplash,
               radius: 28,
               onTap: () {
-                context.read<CurrentPageProvider>().setValue(1);
+                currentPage.setValue(1);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.receipt_long_outlined,
-                    size: 30,
-                  ),
+                  currentPage.currentPageIndex == 1
+                      ? Icon(
+                          Icons.receipt_long,
+                          size: 30,
+                        )
+                      : Icon(
+                          Icons.receipt_long_outlined,
+                          size: 30,
+                        ),
                   Text(
                     'Записи',
                     style: Theme.of(context).textTheme.bodySmall,
@@ -84,16 +95,21 @@ class CustomBottomNavigationBar extends StatelessWidget {
               splashColor: buttonSplash,
               radius: 28,
               onTap: () {
-                context.read<CurrentPageProvider>().setValue(2);
+                currentPage.setValue(2);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.query_stats_outlined,
-                    size: 30,
-                  ),
+                  currentPage.currentPageIndex == 2
+                      ? Icon(
+                          Icons.query_stats,
+                          size: 30,
+                        )
+                      : Icon(
+                          Icons.query_stats_outlined,
+                          size: 30,
+                        ),
                   Text(
                     'Статистика',
                     style: Theme.of(context).textTheme.bodySmall,

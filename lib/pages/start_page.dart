@@ -1,4 +1,5 @@
 import 'package:fit_wallet/pages/home_page.dart';
+import 'package:fit_wallet/pages/settings_page.dart';
 import 'package:fit_wallet/pages/statistics_page.dart';
 import 'package:fit_wallet/pages/transactions_page.dart';
 import 'package:fit_wallet/providers/current_page_provider.dart';
@@ -14,6 +15,7 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final List pages = [
     const HomePage(),
     const TransactionsPage(),
@@ -26,10 +28,22 @@ class _StartPageState extends State<StartPage> {
 
     return Consumer<CurrentPageProvider>(
       builder: (context, value, child) => Scaffold(
+        key: scaffoldKey,
         drawer: Drawer(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text('Drawer')],
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return SettingsPage();
+                      }));
+                    },
+                    child: Text('Настройки'))
+              ],
+            ),
           ),
         ),
         bottomNavigationBar:
