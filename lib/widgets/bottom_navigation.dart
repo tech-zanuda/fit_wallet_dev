@@ -1,25 +1,26 @@
 import 'package:fit_wallet/providers/current_page_provider.dart';
+import 'package:fit_wallet/utils/svg_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({
     super.key,
-    required this.buttonSplash,
   });
-
-  final Color buttonSplash;
 
   @override
   Widget build(BuildContext context) {
+    Color buttonSplash = Theme.of(context).colorScheme.primary.withOpacity(0.1);
     CurrentPageProvider currentPage = context.read<CurrentPageProvider>();
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 70,
-      margin: EdgeInsets.only(left: 16, right: 16, bottom: 10),
+      margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
       decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(10),
+          color: colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.25),
@@ -45,18 +46,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  currentPage.currentPageIndex == 0
-                      ? Icon(
-                          Icons.home,
-                          size: 30,
-                        )
-                      : Icon(
-                          Icons.home_outlined,
-                          size: 30,
-                        ),
+                  currentPage.currentPageIndex != 0
+                      ? SvgIcon(SvgIcons.home,
+                          color: colorScheme.onPrimaryContainer)
+                      : SvgIcon(SvgIcons.homeBold,
+                          color: colorScheme.onPrimaryContainer),
                   Text(
                     'Главная',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: colorScheme.onPrimaryContainer,
+                        ),
                   )
                 ],
               ),
@@ -73,18 +72,20 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  currentPage.currentPageIndex == 1
-                      ? Icon(
-                          Icons.receipt_long,
-                          size: 30,
+                  currentPage.currentPageIndex != 1
+                      ? SvgIcon(
+                          SvgIcons.cardTransfer,
+                          color: colorScheme.onPrimaryContainer,
                         )
-                      : Icon(
-                          Icons.receipt_long_outlined,
-                          size: 30,
+                      : SvgIcon(
+                          SvgIcons.cardTransferBold,
+                          color: colorScheme.onPrimaryContainer,
                         ),
                   Text(
                     'Записи',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: colorScheme.onPrimaryContainer,
+                        ),
                   )
                 ],
               ),
@@ -101,18 +102,20 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  currentPage.currentPageIndex == 2
-                      ? Icon(
-                          Icons.query_stats,
-                          size: 30,
+                  currentPage.currentPageIndex != 2
+                      ? SvgIcon(
+                          SvgIcons.chartSquare,
+                          color: colorScheme.onPrimaryContainer,
                         )
-                      : Icon(
-                          Icons.query_stats_outlined,
-                          size: 30,
+                      : SvgIcon(
+                          SvgIcons.chartSquareBold,
+                          color: colorScheme.onPrimaryContainer,
                         ),
                   Text(
                     'Статистика',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: colorScheme.onPrimaryContainer,
+                        ),
                   )
                 ],
               ),
@@ -129,13 +132,15 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.menu,
-                    size: 30,
+                  SvgIcon(
+                    SvgIcons.hamburgerMenu,
+                    color: colorScheme.onPrimaryContainer,
                   ),
                   Text(
                     'Меню',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: colorScheme.onPrimaryContainer,
+                        ),
                   )
                 ],
               ),

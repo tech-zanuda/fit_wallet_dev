@@ -8,9 +8,8 @@ class Account {
 
   String name;
   double amount;
-  String? color;
 
-  Account({this.id = 0, required this.name, required this.amount, this.color});
+  Account({this.id = 0, required this.name, required this.amount});
 }
 
 @Entity()

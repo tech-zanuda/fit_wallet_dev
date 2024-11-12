@@ -39,11 +39,6 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(3, 16618766423713595),
             name: 'amount',
             type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 3484036079571654677),
-            name: 'color',
-            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -158,7 +153,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [3484036079571654677],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -175,13 +170,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (Account object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          final colorOffset =
-              object.color == null ? null : fbb.writeString(object.color!);
           fbb.startTable(5);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addFloat64(2, object.amount);
-          fbb.addOffset(3, colorOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -194,13 +186,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 6, '');
           final amountParam =
               const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0);
-          final colorParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 10);
-          final object = Account(
-              id: idParam,
-              name: nameParam,
-              amount: amountParam,
-              color: colorParam);
+          final object =
+              Account(id: idParam, name: nameParam, amount: amountParam);
 
           return object;
         }),
@@ -299,10 +286,6 @@ class Account_ {
   /// See [Account.amount].
   static final amount =
       obx.QueryDoubleProperty<Account>(_entities[0].properties[2]);
-
-  /// See [Account.color].
-  static final color =
-      obx.QueryStringProperty<Account>(_entities[0].properties[3]);
 }
 
 /// [Transaction] entity fields to define ObjectBox queries.

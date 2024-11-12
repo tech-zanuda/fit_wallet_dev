@@ -23,11 +23,6 @@
           "id": "3:16618766423713595",
           "name": "amount",
           "type": 8
-        },
-        {
-          "id": "4:3484036079571654677",
-          "name": "color",
-          "type": 9
         }
       ],
       "relations": []
@@ -110,7 +105,9 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    3484036079571654677
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

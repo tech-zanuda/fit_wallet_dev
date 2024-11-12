@@ -27,28 +27,27 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             subtitle: switch (
                 context.read<AppThemeModeProvider>().appThemeMode) {
-              AppThemeMode.light => Text('Светлая тема'),
-              AppThemeMode.dark => Text('Темная тема'),
-              AppThemeMode.system => Text('Системная тема'),
+              'light' => Text('Светлая тема'),
+              'dark' => Text('Темная тема'),
+              'system' => Text('Системная тема'),
               _ => SizedBox()
             },
-            trailing: SegmentedButton<AppThemeMode>(
+            trailing: SegmentedButton<String>(
               style: SegmentedButton.styleFrom(
                   visualDensity: VisualDensity(horizontal: -4, vertical: 0)),
               showSelectedIcon: false,
-              segments: const <ButtonSegment<AppThemeMode>>[
-                ButtonSegment<AppThemeMode>(
-                    value: AppThemeMode.light, icon: Icon(Icons.light_mode)),
-                ButtonSegment<AppThemeMode>(
-                    value: AppThemeMode.system,
-                    icon: Icon(Icons.phone_android)),
-                ButtonSegment<AppThemeMode>(
-                    value: AppThemeMode.dark, icon: Icon(Icons.dark_mode)),
+              segments: const <ButtonSegment<String>>[
+                ButtonSegment<String>(
+                    value: 'light', icon: Icon(Icons.light_mode)),
+                ButtonSegment<String>(
+                    value: 'system', icon: Icon(Icons.phone_android)),
+                ButtonSegment<String>(
+                    value: 'dark', icon: Icon(Icons.dark_mode)),
               ],
-              selected: <AppThemeMode>{
-                context.read<AppThemeModeProvider>().appThemeMode
+              selected: <String>{
+                context.read<AppThemeModeProvider>().appThemeMode ?? 'system'
               },
-              onSelectionChanged: (Set<AppThemeMode> newSelection) {
+              onSelectionChanged: (Set<String> newSelection) {
                 context
                     .read<AppThemeModeProvider>()
                     .setAppThemeMode(newSelection.first);

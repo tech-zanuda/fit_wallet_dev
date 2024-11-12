@@ -1,9 +1,9 @@
 import 'package:fit_wallet/pages/home_page.dart';
-import 'package:fit_wallet/pages/settings_page.dart';
 import 'package:fit_wallet/pages/statistics_page.dart';
 import 'package:fit_wallet/pages/transactions_page.dart';
 import 'package:fit_wallet/providers/current_page_provider.dart';
 import 'package:fit_wallet/widgets/bottom_navigation.dart';
+import 'package:fit_wallet/widgets/drawer_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,35 +24,22 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color buttonSplash = Theme.of(context).colorScheme.primary.withOpacity(0.1);
-
     return Consumer<CurrentPageProvider>(
-      builder: (context, value, child) => Scaffold(
+      builder: (context, page, child) => Scaffold(
         key: scaffoldKey,
-        drawer: Drawer(
-          child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return SettingsPage();
-                      }));
-                    },
-                    child: Text('Настройки'))
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar:
-            CustomBottomNavigationBar(buttonSplash: buttonSplash),
+        drawer: DrawerMenu(),
+        bottomNavigationBar: CustomBottomNavigationBar(),
         appBar: AppBar(
-          title: const Text('Главная'),
+          toolbarHeight: 40,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
+          title: const Text(
+            'Главная',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
           automaticallyImplyLeading: false,
         ),
-        body: SafeArea(child: pages[value.currentPageIndex]),
+        body: pages[page.currentPageIndex],
       ),
     );
   }

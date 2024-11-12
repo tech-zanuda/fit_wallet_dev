@@ -50,10 +50,6 @@ class ObjectBox {
         .map((query) => query.find());
   }
 
-  void putAccount(Account account) {
-    _account.putAsync(account);
-  }
-
   Stream<List<Account>> getAccounts() {
     return _account
         .query()
@@ -61,7 +57,19 @@ class ObjectBox {
         .map((query) => query.find());
   }
 
+  Account? getAccount(int id) {
+    return _account.get(id);
+  }
+
+  void removeAccount(int id) {
+    _account.remove(id);
+  }
+
   void removeAccounts() {
     _account.removeAll();
+  }
+
+  void putAccount(Account account) {
+    _account.putAsync(account);
   }
 }

@@ -18,15 +18,33 @@ class _NewAccountPageState extends State<NewAccountPage> {
 
   void _addAccount() {
     if (_formKey.currentState!.validate()) {
-      final name = _nameController.text;
+      final name = _nameController.text.trim();
       final amount =
           ((double.parse(_amountController.text) * 100).round() / 100);
-      final color = _colorController.text;
 
-      final account = Account(name: name, amount: amount, color: color);
+      final account = Account(name: name, amount: amount);
 
       objectbox.putAccount(account);
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          action: SnackBarAction(
+            label: 'Ок',
+            onPressed: () {},
+            textColor: Theme.of(context).colorScheme.onPrimaryFixed,
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primaryFixed,
+          content: Text('Добавлен счет ${_nameController.text}',
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimaryFixed)),
+          duration: const Duration(milliseconds: 10000),
+          width: MediaQuery.of(context).size.width * 0.95,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6.0),
+          ),
+        ),
+      );
     }
   }
 
@@ -45,7 +63,7 @@ class _NewAccountPageState extends State<NewAccountPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Lottie.asset(
-              'lib/assets/lottie/add_account.json',
+              'assets/lottie/add_account.json',
               height: 250,
               repeat: false,
             ),
@@ -58,7 +76,9 @@ class _NewAccountPageState extends State<NewAccountPage> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(labelText: 'Название счёта'),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.trim().isEmpty) {
                         return 'Введите название';
                       }
                       return null;
