@@ -16,7 +16,7 @@ class ObjectBox {
     _account = Box<Account>(store);
 
     if (_transactionCategory.isEmpty()) {
-      _putCategories();
+      _putDemoCategories();
     }
   }
 
@@ -27,7 +27,7 @@ class ObjectBox {
     return ObjectBox._create(store);
   }
 
-  void _putCategories() {
+  void _putDemoCategories() {
     final categories = [
       TransactionCategory('Прочее'),
       TransactionCategory('Продукты'),
@@ -39,20 +39,17 @@ class ObjectBox {
     _transactionCategory.putManyAsync(categories);
   }
 
-  int countCategories() {
-    return _transactionCategory.count();
-  }
-
-  Stream<List<TransactionCategory>> getAllCategories() {
-    return _transactionCategory
+  Stream<List<Account>> getAccountsQuery() {
+    return _account
         .query()
         .watch(triggerImmediately: true)
         .map((query) => query.find());
   }
 
-  Stream<List<Account>> getAccounts() {
-    return _account
+  Stream<List<Transaction>> getTransactionsQuery() {
+    return _transaction
         .query()
+        .order(Transaction_.date, flags: Order.descending)
         .watch(triggerImmediately: true)
         .map((query) => query.find());
   }
@@ -61,15 +58,27 @@ class ObjectBox {
     return _account.get(id);
   }
 
+  TransactionCategory? getTransactionCategory(int id) {
+    return _transactionCategory.get(id);
+  }
+
+  List<TransactionCategory> getTransactionCategories() {
+    return _transactionCategory.getAll();
+  }
+
+  List<Account> getAccounts() {
+    return _account.getAll();
+  }
+
   void removeAccount(int id) {
     _account.remove(id);
   }
 
-  void removeAccounts() {
-    _account.removeAll();
+  void putAccount(Account account) {
+    _account.put(account);
   }
 
-  void putAccount(Account account) {
-    _account.putAsync(account);
+  void putTransaction(Transaction transaction) {
+    _transaction.put(transaction);
   }
 }

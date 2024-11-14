@@ -3,18 +3,17 @@ import 'package:fit_wallet/models/db_entities.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class NewAccountPage extends StatefulWidget {
-  const NewAccountPage({super.key});
+class AddAccountPage extends StatefulWidget {
+  const AddAccountPage({super.key});
 
   @override
-  State<NewAccountPage> createState() => _NewAccountPageState();
+  State<AddAccountPage> createState() => _AddAccountPageState();
 }
 
-class _NewAccountPageState extends State<NewAccountPage> {
+class _AddAccountPageState extends State<AddAccountPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _amountController = TextEditingController();
-  final _colorController = TextEditingController();
 
   void _addAccount() {
     if (_formKey.currentState!.validate()) {
@@ -135,7 +134,6 @@ class _NewAccountPageState extends State<NewAccountPage> {
   void dispose() {
     _nameController.dispose();
     _amountController.dispose();
-    _colorController.dispose();
     super.dispose();
   }
 }

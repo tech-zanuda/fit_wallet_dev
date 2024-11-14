@@ -63,12 +63,10 @@ class SvgIcons {
   static const String wallet = 'assets/svg/solar_wallet-linear.svg';
   static const String chartSquare = 'assets/svg/solar_chart-square-linear.svg';
   static const String addCircle = 'assets/svg/solar_add-circle-broken.svg';
+  static const String checkCircle = 'assets/svg/solar_check-circle-linear.svg';
+  static const String closeCircle = 'assets/svg/solar_close-circle-linear.svg';
 
   // Bold versions
-  static const String checkSquareBold =
-      'assets/svg/solar_check-square-bold.svg';
-  static const String closeSquareBold =
-      'assets/svg/solar_close-square-bold.svg';
   static const String billListBold = 'assets/svg/solar_bill-list-bold.svg';
   static const String cardTransferBold =
       'assets/svg/solar_card-transfer-bold.svg';

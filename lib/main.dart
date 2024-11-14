@@ -1,6 +1,7 @@
 import 'package:fit_wallet/obx.dart';
 import 'package:fit_wallet/pages/start_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
@@ -25,6 +26,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppThemeModeProvider>(
       builder: (context, theme, child) => MaterialApp(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: <Locale>[
+            Locale('ru', 'RU')
+          ],
           title: 'Fit Wallet',
           debugShowCheckedModeBanner: false,
           theme: FlexThemeData.light(

@@ -11,7 +11,7 @@ class AccountsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: objectbox.getAccounts(),
+      stream: objectbox.getAccountsQuery(),
       builder: (context, snapshot) => ConstrainedBox(
         constraints: BoxConstraints(maxHeight: 60),
         child: ListView.separated(
@@ -25,7 +25,7 @@ class AccountsListView extends StatelessWidget {
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return NewAccountPage();
+                    return AddAccountPage();
                   }));
                 },
                 child: Container(

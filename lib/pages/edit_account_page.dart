@@ -79,7 +79,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   Navigator.pop(context);
                 },
                 child: SvgIcon(
-                  SvgIcons.closeSquareBold,
+                  SvgIcons.closeCircle,
                   color: Theme.of(context).colorScheme.onSurface,
                 )),
         actions: [
@@ -92,7 +92,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   visualDensity:
                       VisualDensity(horizontal: VisualDensity.minimumDensity)),
               child: SvgIcon(
-                SvgIcons.checkSquareBold,
+                SvgIcons.checkCircle,
                 color: Theme.of(context).colorScheme.onSurface,
               )),
           // DELETE
@@ -129,7 +129,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     });
               },
               child: SvgIcon(
-                SvgIcons.trashBinBold,
+                SvgIcons.trashBin,
                 color: Theme.of(context).colorScheme.onSurface,
               )),
         ],
@@ -161,5 +161,11 @@ class _EditAccountPageState extends State<EditAccountPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
   }
 }

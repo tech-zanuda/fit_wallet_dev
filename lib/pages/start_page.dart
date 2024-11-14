@@ -1,3 +1,5 @@
+import 'package:fit_wallet/pages/add_account_page.dart';
+import 'package:fit_wallet/pages/add_transaction_page.dart';
 import 'package:fit_wallet/pages/home_page.dart';
 import 'package:fit_wallet/pages/statistics_page.dart';
 import 'package:fit_wallet/pages/transactions_page.dart';
@@ -26,6 +28,64 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Consumer<CurrentPageProvider>(
       builder: (context, page, child) => Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (_) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Добавить:',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 16),
+                        ListTile(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => AddAccountPage()));
+                          },
+                          title: Text('Новый счет'),
+                        ),
+                        Divider(
+                          height: 8,
+                          thickness: 1,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHigh,
+                        ),
+                        ListTile(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => AddTransactionPage()));
+                          },
+                          title: Text('Новая запись'),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          },
+          child: Icon(
+            Icons.add_rounded,
+            size: 30,
+          ),
+        ),
         key: scaffoldKey,
         drawer: DrawerMenu(),
         bottomNavigationBar: CustomBottomNavigationBar(),
