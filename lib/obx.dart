@@ -70,8 +70,32 @@ class ObjectBox {
     return _account.getAll();
   }
 
+  List<Transaction> getTransactionsForCurrentMonth() {
+    final now = DateTime.now();
+    final startOfMonth = DateTime(now.year, now.month, 1);
+    final endOfMonth =
+        DateTime(now.year, now.month + 1, 0); // Last day of the month
+
+    return _transaction
+        .query(Transaction_.date.between(
+          startOfMonth.millisecondsSinceEpoch,
+          endOfMonth.millisecondsSinceEpoch,
+        ))
+        .build()
+        .find();
+  }
+
   void removeAccount(int id) {
-    _account.remove(id);
+    store.runInTransaction(TxMode.write, () {
+      final relatedTransactions =
+          _transaction.query(Transaction_.account.equals(id)).build().find();
+
+      for (var transaction in relatedTransactions) {
+        _transaction.remove(transaction.id);
+      }
+
+      _account.remove(id);
+    });
   }
 
   void putAccount(Account account) {

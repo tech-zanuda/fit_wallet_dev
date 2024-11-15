@@ -1,4 +1,6 @@
+import 'package:fit_wallet/main.dart';
 import 'package:fit_wallet/widgets/accounts_listview.dart';
+import 'package:fit_wallet/widgets/expense_glance.dart';
 import 'package:fit_wallet/widgets/transactions_glance.dart';
 import 'package:flutter/material.dart';
 
@@ -12,20 +14,29 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 10,
-        ),
-        AccountsListView(
-          key: ValueKey(Theme.of(context).brightness),
-        ),
-        Divider(
-          height: 30,
-          thickness: 1,
-        ),
-        TransactionsGlance()
-      ],
+    final transactions = objectbox.getTransactionsForCurrentMonth();
+    return SizedBox(
+      height: MediaQuery.sizeOf(context).height,
+      child: ListView(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          AccountsListView(),
+          Divider(
+            height: 30,
+            thickness: 1,
+          ),
+          TransactionsGlance(),
+          SizedBox(
+            height: 20,
+          ),
+          ExpensePieChart(transactions: transactions),
+          SizedBox(
+            height: 100,
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:fit_wallet/main.dart';
+import 'package:fit_wallet/models/db_entities.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
 
 class TransactionsGlance extends StatefulWidget {
   const TransactionsGlance({super.key});
@@ -10,6 +12,26 @@ class TransactionsGlance extends StatefulWidget {
 }
 
 class _TransactionsGlanceState extends State<TransactionsGlance> {
+  late Stream<List<Transaction>> transactionStream;
+  late StreamSubscription accountSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    transactionStream = objectbox.getTransactionsQuery();
+    accountSubscription = objectbox.getAccountsQuery().listen((_) {
+      setState(() {
+        transactionStream = objectbox.getTransactionsQuery();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    accountSubscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
@@ -37,23 +59,29 @@ class _TransactionsGlanceState extends State<TransactionsGlance> {
                       .copyWith(fontWeight: FontWeight.w500, fontSize: 18),
                 ),
               ),
-              StreamBuilder(
-                  stream: objectbox.getTransactionsQuery(),
+              StreamBuilder<List<Transaction>>(
+                  stream: transactionStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final transactions = snapshot.data!.take(3).toList();
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: transactions.map((transaction) {
+                          final accountName =
+                              transaction.account.target?.name ?? 'Нет счета';
+                          final categoryName =
+                              transaction.category.target?.name ??
+                                  'Нет категории';
+
                           return ListTile(
-                            key: ObjectKey(transaction.account.target!.name),
+                            key: ObjectKey(transaction.id),
                             titleAlignment: ListTileTitleAlignment.center,
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(16))),
                             onTap: () {},
                             title: Text(
-                              transaction.category.target!.name,
+                              categoryName,
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                             subtitle: Text(
@@ -75,7 +103,7 @@ class _TransactionsGlanceState extends State<TransactionsGlance> {
                                             color: transaction.isIncome
                                                 ? Colors.green
                                                 : Colors.red)),
-                                    Text(transaction.account.target!.name)
+                                    Text(accountName),
                                   ]),
                             ),
                           );
