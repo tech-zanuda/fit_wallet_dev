@@ -14,7 +14,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final transactions = objectbox.getTransactionsForCurrentMonth();
     return SizedBox(
       height: MediaQuery.sizeOf(context).height,
       child: ListView(
@@ -24,17 +23,22 @@ class _HomePageState extends State<HomePage> {
           ),
           AccountsListView(),
           Divider(
-            height: 30,
+            height: 40,
             thickness: 1,
           ),
           TransactionsGlance(),
           SizedBox(
             height: 20,
           ),
-          ExpensePieChart(transactions: transactions),
+          ExpensePieChart(),
           SizedBox(
             height: 100,
-          )
+          ),
+          FilledButton(
+              onPressed: () {
+                objectbox.removeTransactions();
+              },
+              child: Text('Remove'))
         ],
       ),
     );

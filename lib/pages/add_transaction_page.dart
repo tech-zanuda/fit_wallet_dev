@@ -34,7 +34,17 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       transaction.account.target = _selectedAccount;
       transaction.category.target = _selectedCategory;
 
+      final newAmount = _isIncome
+          ? _selectedAccount!.amount + amount
+          : _selectedAccount!.amount - amount;
+      final editedAccount = Account(
+          id: _selectedAccount!.id,
+          name: _selectedAccount!.name,
+          amount: newAmount);
+
       objectbox.putTransaction(transaction);
+      objectbox.putAccount(editedAccount);
+
       Navigator.pop(context);
     }
   }

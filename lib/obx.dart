@@ -70,19 +70,18 @@ class ObjectBox {
     return _account.getAll();
   }
 
-  List<Transaction> getTransactionsForCurrentMonth() {
+  Stream<List<Transaction>> getExpenseTransactionsForCurrentMonth() {
     final now = DateTime.now();
     final startOfMonth = DateTime(now.year, now.month, 1);
-    final endOfMonth =
-        DateTime(now.year, now.month + 1, 0); // Last day of the month
+    final endOfMonth = DateTime(now.year, now.month + 1, 0);
 
     return _transaction
-        .query(Transaction_.date.between(
-          startOfMonth.millisecondsSinceEpoch,
-          endOfMonth.millisecondsSinceEpoch,
-        ))
-        .build()
-        .find();
+        .query(Transaction_.date
+            .between(startOfMonth.millisecondsSinceEpoch,
+                endOfMonth.millisecondsSinceEpoch)
+            .and(Transaction_.isIncome.equals(false)))
+        .watch(triggerImmediately: true)
+        .map((query) => query.find());
   }
 
   void removeAccount(int id) {
@@ -104,5 +103,9 @@ class ObjectBox {
 
   void putTransaction(Transaction transaction) {
     _transaction.put(transaction);
+  }
+
+  void removeTransactions() {
+    _transaction.removeAll();
   }
 }
