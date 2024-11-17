@@ -31,6 +31,8 @@ class _StartPageState extends State<StartPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showModalBottomSheet(
+                backgroundColor:
+                    Theme.of(context).colorScheme.surfaceContainerHigh,
                 context: context,
                 builder: (_) {
                   return Padding(
@@ -39,6 +41,22 @@ class _StartPageState extends State<StartPage> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 4,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .outline
+                                    .withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Text(
                           'Добавить:',
                           style: TextStyle(
@@ -93,8 +111,8 @@ class _StartPageState extends State<StartPage> {
           toolbarHeight: 40,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
-          title: const Text(
-            'Главная',
+          title: Text(
+            appbarTitle(),
             style: TextStyle(fontWeight: FontWeight.w500),
           ),
           automaticallyImplyLeading: false,
@@ -103,35 +121,19 @@ class _StartPageState extends State<StartPage> {
       ),
     );
   }
+
+  String appbarTitle() {
+    int currentPage = Provider.of<CurrentPageProvider>(context, listen: false)
+        .currentPageIndex;
+    switch (currentPage) {
+      case 0:
+        return 'Главная';
+      case 1:
+        return 'Записи';
+      case 2:
+        return 'Статистика';
+      default:
+        return '';
+    }
+  }
 }
-
-
-
-// class CategoriesView extends StatelessWidget {
-//   const CategoriesView({
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: objectbox.getAllCategories(),
-//       builder: (context, snapshot) => ListView.builder(
-//           itemCount: objectbox.countCategories(),
-//           itemBuilder: (BuildContext context, int index) {
-//             final category = snapshot.data;
-//             return Column(
-//               children: [
-//                 ListTile(
-//                   title: Text(category![index].name),
-//                   subtitle: Text(category[index].id.toString()),
-//                 ),
-//                 SizedBox(
-//                   height: 15,
-//                 )
-//               ],
-//             );
-//           }),
-//     );
-//   }
-// }

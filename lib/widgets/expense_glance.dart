@@ -17,6 +17,9 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
     return StreamBuilder<List<Transaction>>(
         stream: objectbox.getExpenseTransactionsForCurrentMonth(),
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SizedBox();
+          }
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             double calculateBoxHeight(int numberOfItems) {
               return 340 + (numberOfItems * 20);
@@ -98,7 +101,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
                     child: Column(
                       children: [
                         Text(
-                          'Расходы за месяц',
+                          'Структура расходов',
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 16),
@@ -113,8 +116,8 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width,
+                        Align(
+                          alignment: Alignment.centerLeft,
                           child: Text.rich(TextSpan(children: [
                             TextSpan(
                                 text: 'Всего: ',
@@ -147,7 +150,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
                   color: Theme.of(context).colorScheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(16)),
               child: Center(
-                child: Text('Здесть будет структура ваших расходов'),
+                child: Text('Здесь будет структура ваших расходов'),
               ),
             ),
           );

@@ -34,11 +34,6 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 100,
           ),
-          FilledButton(
-              onPressed: () {
-                objectbox.removeTransactions();
-              },
-              child: Text('Remove'))
         ],
       ),
     );

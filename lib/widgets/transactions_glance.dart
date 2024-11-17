@@ -36,6 +36,12 @@ class _TransactionsGlanceState extends State<TransactionsGlance> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    NumberFormat numberFormat = NumberFormat.currency(
+      locale: "ru_RU",
+      name: 'RUB',
+      decimalDigits: 2,
+      symbol: '₽',
+    );
 
     double calculateBoxHeight(int numberOfItems) {
       if (numberOfItems != 0) {
@@ -49,9 +55,15 @@ class _TransactionsGlanceState extends State<TransactionsGlance> {
       child: StreamBuilder<List<Transaction>>(
         stream: transactionStream,
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SizedBox(
+              height: 255,
+            );
+          }
           final int numberOfItems =
               snapshot.hasData ? snapshot.data!.length : 0;
           final double boxHeight = calculateBoxHeight(numberOfItems);
+
           return Ink(
             width: MediaQuery.of(context).size.width,
             height: boxHeight,
@@ -108,12 +120,9 @@ class _TransactionsGlanceState extends State<TransactionsGlance> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                '${NumberFormat.currency(
-                                  locale: "ru_RU",
-                                  name: 'RUB',
-                                  decimalDigits: 2,
-                                  symbol: '₽',
-                                ).format(transaction.amount)}\n',
+                                transaction.isIncome
+                                    ? '${numberFormat.format(transaction.amount)}\n'
+                                    : '-${numberFormat.format(transaction.amount)}\n',
                                 maxLines: 1,
                                 style: TextStyle(
                                   fontSize: 14,
