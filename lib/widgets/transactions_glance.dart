@@ -1,6 +1,7 @@
 import 'package:fit_wallet/main.dart';
 import 'package:fit_wallet/models/db_entities.dart';
 import 'package:fit_wallet/pages/add_transaction_page.dart';
+import 'package:fit_wallet/pages/edit_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
@@ -44,10 +45,18 @@ class _TransactionsGlanceState extends State<TransactionsGlance> {
     );
 
     double calculateBoxHeight(int numberOfItems) {
-      if (numberOfItems != 0) {
-        return 39 + (numberOfItems * 72);
+      switch (numberOfItems) {
+        case 0:
+          return 95;
+        case 1:
+          return 111;
+        case 2:
+          return 183;
+        case 3:
+          return 255;
+        default:
+          return 255;
       }
-      return 95;
     }
 
     return Padding(
@@ -100,7 +109,14 @@ class _TransactionsGlanceState extends State<TransactionsGlance> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditTransactionPage(
+                                        transactionId: transaction.id,
+                                      )));
+                        },
                         title: Text(
                           categoryName,
                           style: const TextStyle(fontWeight: FontWeight.w500),

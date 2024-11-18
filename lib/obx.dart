@@ -58,6 +58,10 @@ class ObjectBox {
     return _account.get(id);
   }
 
+  Transaction? getTransaction(int id) {
+    return _transaction.get(id);
+  }
+
   TransactionCategory? getTransactionCategory(int id) {
     return _transactionCategory.get(id);
   }
@@ -107,5 +111,9 @@ class ObjectBox {
 
   void removeTransactions() {
     _transaction.removeAll();
+  }
+
+  List<Transaction> getTransactions() {
+    return _transaction.getAll();
   }
 }

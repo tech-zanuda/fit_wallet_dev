@@ -1,5 +1,6 @@
 import 'package:fit_wallet/main.dart';
 import 'package:fit_wallet/models/db_entities.dart';
+import 'package:fit_wallet/pages/edit_transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -68,7 +69,14 @@ class _TransactionsPageState extends State<TransactionsPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditTransactionPage(
+                                        transactionId: transaction.id,
+                                      )));
+                        },
                         title: Text(
                           transaction.category.target!.name,
                           style: const TextStyle(fontWeight: FontWeight.w500),

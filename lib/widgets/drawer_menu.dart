@@ -1,3 +1,5 @@
+import 'package:fit_wallet/main.dart';
+import 'package:fit_wallet/pages/settings_page.dart';
 import 'package:fit_wallet/utils/svg_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +25,11 @@ class DrawerMenu extends StatelessWidget {
             height: 50,
             thickness: 1,
           ),
+          ElevatedButton(
+              onPressed: () {
+                objectbox.removeTransactions();
+              },
+              child: Text('Hahaha')),
           Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
             child: InkResponse(
@@ -30,7 +37,10 @@ class DrawerMenu extends StatelessWidget {
               containedInkWell: true,
               highlightShape: BoxShape.rectangle,
               borderRadius: BorderRadius.all(Radius.circular(16)),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => SettingsPage()));
+              },
               child: Ink(
                 padding: EdgeInsets.fromLTRB(30, 8, 15, 8),
                 decoration: BoxDecoration(
@@ -50,7 +60,7 @@ class DrawerMenu extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                      'Счета',
+                      'Настройки',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: colorScheme.onPrimaryContainer, fontSize: 18),
                     ))

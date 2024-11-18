@@ -4,24 +4,53 @@ import 'package:fit_wallet/utils/svg_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AddTransactionPage extends StatefulWidget {
-  const AddTransactionPage({super.key});
+class EditTransactionPage extends StatefulWidget {
+  const EditTransactionPage({super.key, required this.transactionId});
+  final int transactionId;
 
   @override
-  State<AddTransactionPage> createState() => _AddTransactionPageState();
+  State<EditTransactionPage> createState() => _EditTransactionPageState();
 }
 
-class _AddTransactionPageState extends State<AddTransactionPage> {
+class _EditTransactionPageState extends State<EditTransactionPage> {
   final _formKey = GlobalKey<FormState>();
-  final _amountController = TextEditingController();
-  final _noteController = TextEditingController(text: '');
-  bool _isIncome = false;
-  DateTime? _selectedDate;
-  Account? _selectedAccount;
-  TransactionCategory? _selectedCategory;
+  late TextEditingController _amountController;
+  late TextEditingController _noteController;
+  late DateTime? _selectedDate;
+  Account? selectedAccount;
+  late bool _isIncome;
+  TransactionCategory? selectedCategory;
+  late Transaction? transactionInfo;
 
   final accounts = objectbox.getAccounts();
   final categories = objectbox.getTransactionCategories();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTransactionData();
+    _loadFormData();
+  }
+
+  void _loadTransactionData() {
+    transactionInfo = objectbox.getTransaction(widget.transactionId);
+  }
+
+  void _loadFormData() {
+    _amountController =
+        TextEditingController(text: transactionInfo!.amount.toString());
+    _noteController = TextEditingController(text: transactionInfo!.note);
+    _isIncome = transactionInfo!.isIncome;
+    _selectedDate = transactionInfo!.date;
+    Account account = transactionInfo!.account.target!;
+    // ignore: unused_local_variable
+    Account selectedAccount =
+        accounts.firstWhere((acc) => acc.id == account.id);
+    TransactionCategory category = transactionInfo!.category.target!;
+    // ignore: unused_local_variable
+    TransactionCategory selectedCategory =
+        categories.firstWhere((cat) => cat.id == category.id);
+  }
 
   void _addTransaction() {
     if (_formKey.currentState!.validate()) {
@@ -30,16 +59,20 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       final note = _noteController.text.trim();
 
       final transaction = Transaction(
-          amount: amount, isIncome: _isIncome, note: note, date: _selectedDate);
-      transaction.account.target = _selectedAccount;
-      transaction.category.target = _selectedCategory;
+          id: transactionInfo!.id,
+          amount: amount,
+          isIncome: _isIncome,
+          note: note,
+          date: _selectedDate);
+      transaction.account.target = selectedAccount;
+      transaction.category.target = selectedCategory;
 
       final newAmount = _isIncome
-          ? _selectedAccount!.amount + amount
-          : _selectedAccount!.amount - amount;
+          ? selectedAccount!.amount + amount
+          : selectedAccount!.amount - amount;
       final editedAccount = Account(
-          id: _selectedAccount!.id,
-          name: _selectedAccount!.name,
+          id: selectedAccount!.id,
+          name: selectedAccount!.name,
           amount: newAmount);
 
       objectbox.putTransaction(transaction);
@@ -184,7 +217,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                 DropdownButtonFormField<Account>(
                   // ACCOUNT
                   decoration: InputDecoration(labelText: 'Счет'),
-                  value: _selectedAccount,
+                  value: selectedAccount,
                   items: accounts.map((account) {
                     return DropdownMenuItem<Account>(
                       value: account,
@@ -193,7 +226,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                   }).toList(),
                   onChanged: (Account? newAccount) {
                     setState(() {
-                      _selectedAccount = newAccount;
+                      selectedAccount = newAccount;
                     });
                   },
                   validator: (value) => value == null ? 'Выберите счет' : null,
@@ -204,7 +237,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                 DropdownButtonFormField<TransactionCategory>(
                   // CATEGORY
                   decoration: InputDecoration(labelText: 'Категория'),
-                  value: _selectedCategory,
+                  value: selectedCategory,
                   items: categories.map((category) {
                     return DropdownMenuItem<TransactionCategory>(
                       value: category,
@@ -213,7 +246,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                   }).toList(),
                   onChanged: (TransactionCategory? newCategory) {
                     setState(() {
-                      _selectedCategory = newCategory;
+                      selectedCategory = newCategory;
                     });
                   },
                   validator: (value) =>

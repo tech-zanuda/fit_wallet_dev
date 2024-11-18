@@ -1,6 +1,5 @@
-import 'package:fit_wallet/main.dart';
 import 'package:fit_wallet/widgets/accounts_listview.dart';
-import 'package:fit_wallet/widgets/expense_glance.dart';
+import 'package:fit_wallet/widgets/expense_pie_chart.dart';
 import 'package:fit_wallet/widgets/transactions_glance.dart';
 import 'package:flutter/material.dart';
 

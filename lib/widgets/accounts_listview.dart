@@ -1,17 +1,31 @@
 import 'package:fit_wallet/main.dart';
+import 'package:fit_wallet/models/db_entities.dart';
 import 'package:fit_wallet/pages/add_account_page.dart';
 import 'package:fit_wallet/utils/svg_icons.dart';
 import 'package:fit_wallet/pages/edit_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AccountsListView extends StatelessWidget {
+class AccountsListView extends StatefulWidget {
   const AccountsListView({super.key});
+
+  @override
+  State<AccountsListView> createState() => _AccountsListViewState();
+}
+
+class _AccountsListViewState extends State<AccountsListView> {
+  late Stream<List<Account>> accountsStream;
+
+  @override
+  void initState() {
+    super.initState();
+    accountsStream = objectbox.getAccountsQuery();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: objectbox.getAccountsQuery(),
+      stream: accountsStream,
       builder: (context, snapshot) => ConstrainedBox(
         constraints: BoxConstraints(maxHeight: 60),
         child: ListView.separated(

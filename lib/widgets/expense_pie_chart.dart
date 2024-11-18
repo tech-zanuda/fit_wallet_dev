@@ -12,10 +12,18 @@ class ExpensePieChart extends StatefulWidget {
 }
 
 class _ExpensePieChartState extends State<ExpensePieChart> {
+  late Stream<List<Transaction>> transactionStream;
+
+  @override
+  void initState() {
+    super.initState();
+    transactionStream = objectbox.getExpenseTransactionsForCurrentMonth();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Transaction>>(
-        stream: objectbox.getExpenseTransactionsForCurrentMonth(),
+        stream: transactionStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return SizedBox();

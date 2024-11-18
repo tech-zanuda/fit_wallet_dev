@@ -1,5 +1,5 @@
-import 'package:fit_wallet/widgets/expense_glance.dart';
-import 'package:fit_wallet/widgets/line_chart_statistics.dart';
+import 'package:fit_wallet/widgets/bar_chart_statistics.dart';
+import 'package:fit_wallet/widgets/expense_pie_chart.dart';
 import 'package:flutter/material.dart';
 
 class StatisticsPage extends StatefulWidget {
@@ -17,7 +17,18 @@ class _StatisticsPageState extends State<StatisticsPage> {
       child: ListView(
         padding: EdgeInsets.only(top: 10),
         children: [
-          LineChartStatistics(),
+          SizedBox(
+            height: 10,
+          ),
+          BarChartStatistics(
+            isIncome: true,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          BarChartStatistics(
+            isIncome: false,
+          ),
           SizedBox(
             height: 20,
           ),
