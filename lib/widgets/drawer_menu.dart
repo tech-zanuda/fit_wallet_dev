@@ -1,4 +1,3 @@
-import 'package:fit_wallet/main.dart';
 import 'package:fit_wallet/pages/settings_page.dart';
 import 'package:fit_wallet/utils/svg_icons.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +24,6 @@ class DrawerMenu extends StatelessWidget {
             height: 50,
             thickness: 1,
           ),
-          ElevatedButton(
-              onPressed: () {
-                objectbox.removeTransactions();
-              },
-              child: Text('Hahaha')),
           Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
             child: InkResponse(
